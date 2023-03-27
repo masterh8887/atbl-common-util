@@ -1,7 +1,7 @@
 {
-  "name": "duksan-common-util",
-  "version": "0.1.5",
-  "description": "duksan common module",
+  "name": "atbl-common-util",
+  "version": "0.1.0",
+  "description": "atbl common module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mansterh8887/duksan-common-util.git"
+    "url": "git+https://github.com/mansterh8887/atbl-common-util.git"
   },
   "keywords": [],
   "author": "mansterh8887 <masterh8887@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mansterh8887/duksan-common-util/issues"
+    "url": "https://github.com/mansterh8887/atbl-common-util/issues"
   },
-  "homepage": "https://github.com/mansterh8887/duksan-common-util#readme",
+  "homepage": "https://github.com/mansterh8887/atbl-common-util#readme",
   "devDependencies": {
     "@types/jest": "29.5.0",
     "@types/node": "17.0.34",
