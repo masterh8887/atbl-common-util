@@ -1,6 +1,6 @@
 # masterh8887/atbl-common-util
-atbl common utility
 
+atbl common utility
 
 :chart_with_upwards_trend: common-module
 
@@ -13,7 +13,10 @@ atbl common utility
 ### 설치
 
 ```bash
+npm 명령어 이용시
 npm i atbl-common-util
+
+yarn 명령어 이용시
 yarn add atbl-common-util
 ```
 
@@ -43,8 +46,6 @@ jwt.getSeq();
 ```typescript
 jwt.getId();
 ```
-
-
 
 - 관리자/작가/회원 이름
 
@@ -77,7 +78,7 @@ TokenType.USER; // 회원 권한
 - 관리자 메뉴 권한
 
 ```typescript
-jwt.getMenuPermissions();
+jwt.getMenuPermissions(); // PermissionMenu 인터페이스 확인
 ```
 
 - 관리자 관리 페이지 접속 IP 방화벽
@@ -85,7 +86,6 @@ jwt.getMenuPermissions();
 ```typescript
 jwt.getAclList();
 ```
-
 
 - 접속 IP 주소
 

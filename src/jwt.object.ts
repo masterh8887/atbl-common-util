@@ -8,7 +8,7 @@ export enum TokenType {
   USER = "u",
 }
 
-export interface IPermissionMenu {
+export interface PermissionMenu {
   /** 아트워크 메뉴 권한 */
   artwork?: number;
   /** 렌탈 메뉴 권한 */
@@ -144,9 +144,9 @@ export class JwtObject {
    * 메뉴별 권한을 반환한다. (관리자)
    * @returns 메뉴별 권한
    */
-  public getMenuPermissions(): IPermissionMenu | undefined {
+  public getMenuPermissions(): PermissionMenu | undefined {
     if (this.getType() === TokenType.MANAGER) {
-      return JSON.parse(this.payload.mp!) as IPermissionMenu;
+      return JSON.parse(this.payload.mp!) as PermissionMenu;
     }
     return undefined;
   }

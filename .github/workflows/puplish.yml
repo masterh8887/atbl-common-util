@@ -18,8 +18,6 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
-      - name: install yarn
-        run: npm i -g yarn
       - name: install
         run: yarn install --frozen-lockfile
       - name: build
