@@ -84,6 +84,22 @@ export class JwtHelper {
     return `${h}.${p}.${s}`;
   }
 
+  public validateToken(token: string) {
+    try {
+      const [header, payload, signature] = token.split(".");
+      const s = this.base64ToBase64Url(
+        crypto
+          .createHmac("sha256", this.secretKey)
+          .update(`${header}.${payload}`)
+          .digest("base64")
+      );
+      return signature === s;
+    } catch (error) {
+      this.logger.warn("토큰의 서명값이 유효하지 않습니다.");
+      return false;
+    }
+  }
+
   private base64ToBase64Url(base64: string) {
     return base64.replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
   }
