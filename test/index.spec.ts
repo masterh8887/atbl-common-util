@@ -1,20 +1,18 @@
 import * as crypto from "crypto";
-// import { AuthTokenUserType, RoleType } from "../src/jwt.object";
-import { ILog, JwtHelper } from "../src/jwt.helper";
-import { IJwtPayload, IPermissionMenu, TokenType } from "../src/jwt.object";
+import { JwtHelper } from "../src/jwt.helper";
+import {
+  JwtPayload,
+  IPermissionMenu,
+  TokenType,
+  JwtHeader,
+} from "../src/jwt.object";
 
 const timeout = 1;
 describe("JWT Helper/Object Test", () => {
   describe("[관리자/MANAGER] JWT Test", () => {
-    const logeer: ILog = {
-      log: (message) => console.log(message),
-      error: (message) => console.error(message),
-      warn: (message) => console.warn(message),
-      debug: (message) => console.debug(message),
-    };
-    const jwtHelper = new JwtHelper(logeer);
-    const hedaer = jwtHelper.getJwtHeader();
-    const params: IJwtPayload = {
+    const jwtHelper = new JwtHelper();
+    const hedaer = getJwtHeader();
+    const payload: JwtPayload = {
       iss: "test",
       exp: String(Date.now() + timeout * 60 * 1000),
       seq: 1,
@@ -37,8 +35,7 @@ describe("JWT Helper/Object Test", () => {
       } as IPermissionMenu),
       nn: "관리자 별명",
     };
-    const payload = jwtHelper.getJwtPayload(params);
-    const token = jwtHelper.createToken(hedaer, payload);
+    const token = createToken(hedaer, payload);
     const jwt = jwtHelper.getJwtObject(token);
 
     it("header 검증", () => {
@@ -80,41 +77,11 @@ describe("JWT Helper/Object Test", () => {
       expect(jwt.getMenuPermissions()?.user).toBe(1);
     });
   });
-  // describe("[회원/USER] jwt test", () => {
-  //   const seq: number = 1;
-  //   const name: string = "사용자";
-  //   const email: string = "user@test.com";
-  //   const role: RoleType = RoleType.USER;
-  //   const ip = "123.123.123.123";
-  //   const token = createToken(
-  //     getJwtHeader(),
-  //     getJwtPayload(seq, name, email, role, ip, 3600)
-  //   );
-  //   const jwt = helper.getJwtObject(token);
-  //   it("만료기간 검증", () => {
-  //     expect(jwt.isExpired()).toBeFalsy();
-  //   });
-  //   it("고유번호 검증", () => {
-  //     expect(jwt.getSeq()).toBe(seq);
-  //   });
-  //   it("이름 검증", () => {
-  //     expect(jwt.getName()).toBe(name);
-  //   });
-  //   it("이메일 검증", () => {
-  //     expect(jwt.getEmail()).toBe(email);
-  //   });
-  //   it("토큰 유형 검증", () => {
-  //     expect(jwt.getType()).toBe(role);
-  //   });
-  //   it("IP 검증", () => {
-  //     expect(jwt.getIp()).toBe(ip);
-  //   });
-  // });
 
   describe("[회원/USER] JWT Test", () => {
     const jwtHelper = new JwtHelper();
-    const hedaer = jwtHelper.getJwtHeader();
-    const params: IJwtPayload = {
+    const hedaer = getJwtHeader();
+    const payload: JwtPayload = {
       iss: "test",
       exp: String(Date.now() + timeout * 60 * 1000),
       seq: 2,
@@ -125,8 +92,7 @@ describe("JWT Helper/Object Test", () => {
       ip: "111.113.233.444",
       e: "user@user.com",
     };
-    const payload = jwtHelper.getJwtPayload(params);
-    const token = jwtHelper.createToken(hedaer, payload);
+    const token = createToken(hedaer, payload);
     const jwt = jwtHelper.getJwtObject(token);
 
     it("header 검증", () => {
@@ -158,3 +124,30 @@ describe("JWT Helper/Object Test", () => {
     });
   });
 });
+
+function createToken(header: JwtHeader, payload: JwtPayload) {
+  const h = base64ToBase64Url(base64Encode(JSON.stringify(header)));
+  const p = base64ToBase64Url(base64Encode(JSON.stringify(payload)));
+  const s = base64ToBase64Url(
+    crypto
+      .createHmac("sha256", "1234567890123456")
+      .update(`${h}.${p}`)
+      .digest("base64")
+  );
+  return `${h}.${p}.${s}`;
+}
+
+function base64ToBase64Url(base64: string) {
+  return base64.replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+}
+
+function base64Encode(input: string) {
+  return Buffer.from(input).toString("base64");
+}
+
+function getJwtHeader(): JwtHeader {
+  return {
+    alg: "HS256",
+    typ: "JWT",
+  };
+}

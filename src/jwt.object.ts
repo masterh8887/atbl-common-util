@@ -1,13 +1,11 @@
 /** 토큰유형 */
 export enum TokenType {
+  /** 관리자 */
   MANAGER = "m",
+  /** 작가 */
   AUTHOR = "a",
+  /** 회원 */
   USER = "u",
-}
-
-export interface IJwtHeader {
-  alg: string;
-  typ: string;
 }
 
 export interface IPermissionMenu {
@@ -31,7 +29,12 @@ export interface IPermissionMenu {
   setting?: number;
 }
 
-export interface IJwtPayload {
+export interface JwtHeader {
+  alg: string;
+  typ: string;
+}
+
+export interface JwtPayload {
   /** iss 생성 */
   iss: string;
   /** 토큰 만료시간 (unix time 포맷) */
@@ -60,15 +63,15 @@ export interface IJwtPayload {
 
 export class JwtObject {
   constructor(
-    private readonly header: IJwtHeader,
-    private readonly payload: IJwtPayload
+    private readonly header: JwtHeader,
+    private readonly payload: JwtPayload
   ) {}
 
-  public getJwtHeader(): IJwtHeader {
+  public getJwtHeader(): JwtHeader {
     return this.header;
   }
 
-  public getPayload(): IJwtPayload {
+  public getPayload(): JwtPayload {
     return this.payload;
   }
 
