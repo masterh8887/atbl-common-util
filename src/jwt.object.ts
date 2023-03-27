@@ -5,7 +5,7 @@ export enum TokenType {
   USER = "u",
 }
 
-export interface JwtHeader {
+export interface IJwtHeader {
   alg: string;
   typ: string;
 }
@@ -31,47 +31,44 @@ export interface IPermissionMenu {
   setting?: number;
 }
 
-/**
- * JWT Payload.
- * @param iss 생성
- * @param exp  토큰 만료시간 (unix time 포맷)
- * @param seq  고유번호 (managerSeq, authorSeq, userSeq)
- * @param id  로그인아이디
- * @param t  토큰유형 (manager:관리자, author:작가, user:회원)
- * @param n  이름
- * @param ip  접속 IP 주소
- * @param timeout 토큰유효시간 (초)
- * @param nn  닉네임
- * @param e  이메일
- * @param mp  메뉴별 권한(관리자)
- * @param aclList  ip접근 허용 리스트(관리자))
- */
-export interface JwtPayload {
+export interface IJwtPayload {
+  /** iss 생성 */
   iss: string;
+  /** 토큰 만료시간 (unix time 포맷) */
   exp: string;
+  /** 고유번호 (managerSeq, authorSeq, userSeq) */
   seq: number;
+  /** 로그인아이디 */
   id: string;
+  /** 토큰유형 (manager:관리자, author:작가, user:회원) */
   t: string;
+  /** 이름 */
   n: string;
+  /** 접속 IP 주소 */
   ip: string;
+  /** 토큰유효시간 (초) */
   timeout: number;
+  /** 닉네임 */
   nn?: string;
+  /** 이메일 */
   e?: string;
+  /** 메뉴별 권한(관리자) */
   mp?: string;
+  /** ip접근 허용 리스트(관리자)) */
   aclList?: string;
 }
 
 export class JwtObject {
   constructor(
-    private readonly header: JwtHeader,
-    private readonly payload: JwtPayload
+    private readonly header: IJwtHeader,
+    private readonly payload: IJwtPayload
   ) {}
 
-  public getJwtHeader(): JwtHeader {
+  public getJwtHeader(): IJwtHeader {
     return this.header;
   }
 
-  public getPayload(): JwtPayload {
+  public getPayload(): IJwtPayload {
     return this.payload;
   }
 
@@ -114,6 +111,14 @@ export class JwtObject {
    */
   public getName(): string {
     return this.payload.n;
+  }
+
+  /**
+   * 운영자/사용자의 별명을 반환한다.
+   * @returns 별명
+   */
+  public getNickName(): string | undefined {
+    return this.payload.nn;
   }
 
   /**
