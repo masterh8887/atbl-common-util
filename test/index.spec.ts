@@ -2,7 +2,7 @@ import * as crypto from "crypto";
 import { JwtHelper } from "../src/jwt.helper";
 import {
   JwtPayload,
-  PermissionMenu,
+  IPermissionMenu,
   TokenType,
   JwtHeader,
 } from "../src/jwt.object";
@@ -32,7 +32,7 @@ describe("JWT Helper/Object Test", () => {
         setting: 1,
         stats: 0,
         user: 1,
-      } as PermissionMenu),
+      } as IPermissionMenu),
       nn: "관리자 별명",
     };
     const token = createToken(hedaer, payload);
